@@ -17,8 +17,7 @@ import static akka.japi.Util.classTag;
 public class Main {
     public static void main(String[] args) throws Exception {
         ActorSystem system = ActorSystem.create("calculator-system");
-        ActorRef producerService =
-                system.actorOf(Props.create(Producer.class), "producer");
+        ActorRef producerService = system.actorOf(Props.create(Producer.class), "producer");
 
         // (3 + 5) / (2 * (1 + 1))
         Expression task = new Divide(
@@ -29,7 +28,7 @@ public class Main {
                 )
         );
 
-        FiniteDuration duration = Duration.create(1, TimeUnit.SECONDS);
+        FiniteDuration duration = Duration.create(5, TimeUnit.SECONDS);
         Integer result = Await.result(ask(producerService, task, new Timeout(duration)).mapTo(classTag(Integer.class)), duration);
         System.out.println("Got result: " + result);
 
