@@ -21,11 +21,11 @@ public class Main {
 
         // (3 + 5) / (2 * (1 + 1))
         Expression task = new Divide(
-                new Add(new Const(3), new Const(5)),
-                new Multiply(
-                        new Const(2),
-                        new Add(new Const(1), new Const(1))
-                )
+            new Add(new Const(3), new Const(5)),
+            new Multiply(
+                new Const(2),
+                new Add(new Const(1), new Const(1))
+            )
         );
 
         FiniteDuration duration = Duration.create(5, TimeUnit.SECONDS);
