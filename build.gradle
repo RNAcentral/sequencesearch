@@ -1,0 +1,25 @@
+plugins {
+    id 'java'
+}
+
+group 'org.rnacentral.sequencesearch'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+tasks.withType(ScalaCompile) {
+    scalaCompileOptions.useAnt = false
+}
+
+dependencies {
+    compile group: 'org.scala-lang', name: 'scala-library', version: '2.10.4'
+    compile group: 'com.typesafe.akka', name: 'akka-actor_2.12', version: '2.5.14'
+    compile group: 'com.typesafe.akka', name: 'akka-stream_2.12', version:'2.5.14'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile group: 'com.typesafe.akka', name: 'akka-testkit_2.12', version: '2.5.14'
+    testCompile group: 'com.typesafe.akka', name: 'akka-stream-testkit_2.12', version:'2.5.14'
+}
