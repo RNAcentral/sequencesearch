@@ -8,28 +8,21 @@ import scala.concurrent.Await;
 import scala.concurrent.duration.Duration;
 import scala.concurrent.duration.FiniteDuration;
 import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
+import java.util.Arrays;
 
-import static org.rnacentral.Producer.*;
-import static org.rnacentral.Expression.*;
 import static akka.pattern.Patterns.ask;
 import static akka.japi.Util.classTag;
 
 public class Main {
     public static void main(String[] args) throws Exception {
         ActorSystem system = ActorSystem.create("calculator-system");
-        ActorRef producerService = system.actorOf(Props.create(Producer.class), "producer");
+        ActorRef producerService = system.actorOf(Props.create(Mapper.class), "producer");
 
-        // (3 + 5) / (2 * (1 + 1))
-        Expression task = new Divide(
-            new Add(new Const(3), new Const(5)),
-            new Multiply(
-                new Const(2),
-                new Add(new Const(1), new Const(1))
-            )
-        );
+        Job job = new Job("12345", (ArrayList<String>) Arrays.asList("miRBase", "tRNA"));
 
         FiniteDuration duration = Duration.create(5, TimeUnit.SECONDS);
-        Integer result = Await.result(ask(producerService, task, new Timeout(duration)).mapTo(classTag(Integer.class)), duration);
+        Integer result = Await.result(ask(producerService, job, new Timeout(duration)).mapTo(classTag(Integer.class)), duration);
         System.out.println("Got result: " + result);
 
         Await.ready(system.terminate(), Duration.Inf());
